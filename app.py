@@ -53,10 +53,7 @@ def home():
 def submit():
     code_input = ConvertListToCommands(request.form['text'].split())
 
-
-
     readable_out = list(i.get() for i in code_input)
-
 
     return render_template(
         "index.html",
