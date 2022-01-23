@@ -14,9 +14,6 @@ def home():
 
 @app.route("/submit", methods=["POST"])
 def submit():
-    global code_input 
     code_input = request.form['text']
-    code_input += "hallo"
-    print(code_input)
     return 'You entered: {}'.format(code_input)
 
