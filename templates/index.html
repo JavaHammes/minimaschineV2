@@ -2,16 +2,18 @@
 <head>
     <meta charset="UTF-8">
     <title>Minimaschine</title>
+    <link rel="stylesheet" href="static\site.css">
 </head>
 <body>
     <form action="{{ url_for('submit') }}" method="post">
         <textarea name="text" id="textbox"></textarea>
+        <textarea id="textbox"> {{ value }} </textarea>
+        <br>
         <input type="submit">
     </form>
 
-    
     <script>
-        // +++++++++ ENABLE TAB IN TEXTAREA +++++++++
+        // +++++ ENABLE TAB IN TEXTAREA +++++
         document.getElementById('textbox').addEventListener('keydown', function(e) {
         if (e.key == 'Tab') {
             e.preventDefault();
