@@ -13,6 +13,10 @@ code_input = ""
 
 def ConvertListToCommands(lst):
     res_lst = list()
+    
+    if len(lst) < 2:
+        res_lst.append(Command("ERROR", "403"))
+        return res_lst
 
     i = 0
     while i < len(lst):
@@ -49,7 +53,10 @@ def home():
 def submit():
     code_input = ConvertListToCommands(request.form['text'].split())
 
+
+
     readable_out = list(i.get() for i in code_input)
+
 
     return render_template(
         "index.html",
