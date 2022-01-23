@@ -1,4 +1,4 @@
-.message {
-    font-weight: 600;
-    color: blue;
+#textbox{
+    width: 300px;
+    height: 400px;
 }
