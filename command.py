@@ -2,7 +2,6 @@ class Command:
 
     command = ""
     value = ""
-    commands = list()
 
     def __init__(self, command, value):
         self.command = command
@@ -11,8 +10,8 @@ class Command:
     def get(self):
         return (self.command, self.value)
 
-    def getCommand(self):
+    def get_key(self):
         return self.command
 
-    def getValue(self):
+    def get_value(self):
         return self.value
