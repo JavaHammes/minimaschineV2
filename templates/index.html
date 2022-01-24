@@ -2,16 +2,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Minimaschine</title>
-    <link rel="stylesheet" href="static\site.css">
+
+    <script language="javascript" type="text/javascript" src="https://codemirror.net/lib/codemirror.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://codemirror.net/lib/codemirror.css"></link>
+    <link rel="stylesheet" href="http://codemirror.net/theme/night.css">
+
+    <link rel="stylesheet" type="text/css" href="static\site.css"></link>
+
 </head>
 <body>
-    <form action="{{ url_for('submit') }}" method="post">
-        <textarea name="text" id="textbox"></textarea>
-        <textarea id="textbox"> {{ value }} </textarea>
+    <form action="{{ url_for('submit') }}" method="post" class="input_form">
+        <textarea name="text" id="code"></textarea>
+        <textarea> {{ value }} </textarea>
         <br>
-        <input type="submit">
+        <input type="submit" class="submit_button">
     </form>
 
+    <script>
+        var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+            lineNumbers: true,
+            theme: "night"
+        });
+        editor.setSize(500,300);
+    </script>
 
     <script>
         // +++++ ENABLE TAB IN TEXTAREA +++++
