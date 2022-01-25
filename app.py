@@ -31,7 +31,6 @@ def submit():
     ilex.init_commands(commands)
 
     value = ilex.return_commands_readable()
-    value.append(ilex.check_valid())
 
     reg_1 = 0000000000000000
     reg_2 = 0000000000000000
