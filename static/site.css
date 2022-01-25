@@ -1,22 +1,88 @@
-body{
+@font-face {
+    font-family: "Code";
+    src: url("/static/SourceCodePro-Regular.ttf");
+}
+
+html, body{
     background-color: #555;
 }
 
 textarea{
-    height: 400px;
-    width: 300px;
+    height: 500px;
+    width: 100%;
 }
 
-.input_form{
-    display:flex;
-    justify-content: center;
-    align-items: center;
-    gap: 20px
+
+.row{
+    display: flex;
 }
+
+.column-left{
+    width: 30%;
+    margin-left: 2%;
+}
+
+.column-right{
+    width: 70%;
+    margin-left: 2%;
+    margin-right: 2%;
+}
+
 
 .submit_button{
-    height: 75px;
-    width: 150px;
+    height: 50px;
+    width: 100%;
+}
+
+.reg_table  {
+    border-collapse:collapse;
+    border-spacing:0;
+    width: 100%;
+    height: 40%;
+}
+
+.reg_table td{
+    border-color:black;
+    border-style:solid;
+    border-width:1px;
+    font-family:"Code";
+    font-size:25px;
+    overflow:hidden;
+    padding:10px 5px;
+    word-break:normal;
+}
+.reg_table th{
+    border-color:black;
+    border-style:solid;
+    border-width:1px;
+    font-family: "Code";
+    font-size:25px;
+    font-weight:normal;
+    overflow:hidden;
+    padding:10px 5px;
+    word-break:normal;
+}
+
+.reg_table .tg-reg{
+    text-align:left;
+    vertical-align:top;
+}
+
+.reg_table .tg-flag{
+    text-align:left;
+    vertical-align:top;
+}
+
+.footer{
+    width: 100%;
+    height: 5%;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+}
+
+.buttons{
+    flex: 1;
 }
 
 .CodeMirror {
@@ -28,7 +94,6 @@ textarea{
     display: block;
     width: 100%;
     padding: 6px 12px;
-    font-size: 14px;
     line-height: 1.42857143;
     color: #555;
     background-color: #fff;
@@ -38,7 +103,8 @@ textarea{
     box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075);
     box-shadow: none;
     transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
-    font-family: monospace;
+    font-family: "Code";
+    font-size: 20px;
     position: relative;
     overflow: hidden;
 }
@@ -46,7 +112,7 @@ textarea{
 .CodeMirror-focused {
     border-color: #66afe9;
     outline: 0;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6); /* Bootstrap 3 */
-    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25); /* Bootstrap 4 */
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, .075), 0 0 8px rgba(102, 175, 233, .6);
+    box-shadow: 0 0 0 .2rem rgba(0, 123, 255, .25);
     transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
 }
