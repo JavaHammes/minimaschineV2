@@ -24,29 +24,31 @@
             <textarea> {{ value }} </textarea>
 
             <table class="reg_table">
+
                 <tr>
-                    <th class="tg-reg">R1= 0000000000000000</th>
-                    <th class="tg-reg">R2= 0000000000000000</th>
+                    <th class="tg-reg">R1= {{ reg_1|default("0000000000000000",true) }}</th>
+                    <th class="tg-reg">R2= {{ reg_2|default("0000000000000000",true) }}</th>
                 </tr>
                 <tr>
-                    <td class="tg-reg">R3= 0000000000000000</td>
-                    <td class="tg-reg">R4= 0000000000000000</td>
+                    <td class="tg-reg">R3= {{ reg_3|default("0000000000000000",true) }}</td>
+                    <td class="tg-reg">R4= {{ reg_4|default("0000000000000000",true) }}</td>
                 </tr>
                 <tr>
-                    <td class="tg-reg">R5= 0000000000000000</td>
-                    <td class="tg-reg">R6= 0000000000000000</td>
+                    <td class="tg-reg">R5= {{ reg_5|default("0000000000000000",true) }}</td>
+                    <td class="tg-reg">R6= {{ reg_6|default("0000000000000000",true) }}</td>
                 </tr>
                 <tr>
-                    <td class="tg-reg">R7= 0000000000000000</td>
-                    <td class="tg-reg">R8= 0000000000000000</td>
+                    <td class="tg-reg">R7= {{ reg_7|default("0000000000000000",true) }}</td>
+                    <td class="tg-reg">R8= {{ reg_8|default("0000000000000000",true) }}</td>
+                </tr>
+
+                <tr>
+                    <td class="tg-flag">OV= {{ ov|default("0",true)}} </td> <!-- Overflow flag: 1->Overflowed 0->Didn't overflow-->
+                    <td class="tg-flag">ZR= {{ zr|default("0",true)}} </td> <!-- Zero Flag: 1->Zero 0->Not Zero-->
                 </tr>
                 <tr>
-                    <td class="tg-flag">FLAG=0</td>
-                    <td class="tg-flag">FLAG=0</td>
-                </tr>
-                <tr>
-                    <td class="tg-flag">FLAG=0</td>
-                    <td class="tg-flag">FLAG=0</td>
+                    <td class="tg-flag">SF= {{ sf|default("0",true)}} </td> <!-- Sign Flag: 1->Negative 0->Positive-->
+                    <td class="tg-flag">PF= {{ pf|default("0",true)}} </td> <!-- Parity Flag: 1->Parity Even 0->Parity Odd-->
                 </tr>
                 </table>
             
