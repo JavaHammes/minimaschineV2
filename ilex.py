@@ -23,6 +23,7 @@ class Ilex:
 
     def init_commands(self, commands):
         self.commands = commands
+        self.check_valid()
 
     def return_commands_readable(self):
         return list(command.get() for command in self.commands)
@@ -30,7 +31,7 @@ class Ilex:
     def convert_list_to_commands(self, lst):
         res_lst = list()
         
-        if len(lst) < 2:
+        if len(lst) < 4:
             res_lst.append(Command("ERROR", "403"))
             return res_lst
 
@@ -51,9 +52,13 @@ class Ilex:
                         i += 1
                         break
             else:
-                res_lst.append(Command(lst[i], lst[i+1]))        
-                i += 2
-        
+                try:
+                    res_lst.append(Command(lst[i], lst[i+1]))        
+                    i += 2
+                except IndexError:
+                    res_lst.append(Command("ERROR", "402"))
+                    return res_lst
+
         return res_lst
 
     def check_valid(self):
@@ -64,6 +69,10 @@ class Ilex:
                     amount_of_valid_commands += 1
                     continue
         
-        return (amount_of_valid_commands is len(self.commands))
+        if amount_of_valid_commands is len(self.commands):
+            return True
+        else:
+            self.commands.append(Command("Error", "402"))
+            return False
 
 
