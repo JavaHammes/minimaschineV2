@@ -11,23 +11,67 @@
 
 </head>
 <body>
-    <form action="{{ url_for('submit') }}" method="post" class="input_form">
-        <textarea name="text" id="code"></textarea>
-        <textarea> {{ value }} </textarea>
-        <br>
-        <input type="submit" class="submit_button">
-    </form>
 
+    <div class="row">
+        <div class="column-left">
+            <form action="{{ url_for('submit') }}" method="post" class="input_form">
+                <textarea name="text" id="code"></textarea>
+                <input type="submit" class="submit_button" value="Run Code">
+            </form>
+        </div>
+    
+        <div class="column-right">
+            <textarea> {{ value }} </textarea>
+
+            <table class="reg_table">
+                <tr>
+                    <th class="tg-reg">R1= 0000000000000000</th>
+                    <th class="tg-reg">R2= 0000000000000000</th>
+                </tr>
+                <tr>
+                    <td class="tg-reg">R3= 0000000000000000</td>
+                    <td class="tg-reg">R4= 0000000000000000</td>
+                </tr>
+                <tr>
+                    <td class="tg-reg">R5= 0000000000000000</td>
+                    <td class="tg-reg">R6= 0000000000000000</td>
+                </tr>
+                <tr>
+                    <td class="tg-reg">R7= 0000000000000000</td>
+                    <td class="tg-reg">R8= 0000000000000000</td>
+                </tr>
+                <tr>
+                    <td class="tg-flag">FLAG=0</td>
+                    <td class="tg-flag">FLAG=0</td>
+                </tr>
+                <tr>
+                    <td class="tg-flag">FLAG=0</td>
+                    <td class="tg-flag">FLAG=0</td>
+                </tr>
+                </table>
+            
+            <div class="footer">
+                <button class="buttons">Button</button>
+                <button class="buttons">Button</button>
+                <button class="buttons">Button</button>
+                <button class="buttons">Button</button>
+                <button class="buttons">Button</button>
+            </div>
+        </div>
+    </div>
+    <!-- +++++ JAVASCRIPT +++++ -->
+
+    <!-- +++++ CODEMIRROR +++++-->
     <script>
         var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
             lineNumbers: true,
             theme: "night"
         });
-        editor.setSize(500,300);
+        editor.setSize(window.screen.width * 0.29,window.screen.height/1.2);
     </script>
 
+    <!-- +++++ ENABLE TAB IN TEXTAREA +++++ -->
     <script>
-        // +++++ ENABLE TAB IN TEXTAREA +++++
         document.getElementById('textbox').addEventListener('keydown', function(e) {
         if (e.key == 'Tab') {
             e.preventDefault();
