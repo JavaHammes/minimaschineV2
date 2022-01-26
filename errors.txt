@@ -1,3 +1,4 @@
-404 - HOLD too early
 403 - Too less elements
-402 - Wrong input
+402 - Wrong input (command)
+401 - No HOLD
+400 - Wrong input (value)

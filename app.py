@@ -31,6 +31,7 @@ def submit():
     ilex.init_commands(commands)
 
     value = ilex.return_commands_readable()
+    print(value)
 
     reg_1 = 0000000000000000
     reg_2 = 0000000000000000
@@ -49,7 +50,6 @@ def submit():
 
     return render_template(
         "index.html",
-        value = value,
         reg_1 = reg_1,
         reg_2 = reg_2,
         reg_3 = reg_3,
