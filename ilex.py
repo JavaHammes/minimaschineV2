@@ -53,6 +53,7 @@ class Ilex:
         return list(command.get() for command in commands)
 
     
+    # +++++ GET EVERY METHODS NAME WITHOUT ":"
     def get_method_names(self):
         method_names = list()
         for command in self.commands:
@@ -61,13 +62,14 @@ class Ilex:
         
         return method_names
 
-
+    # +++++ RETURN INDEX OF METHOD NAME +++++
     def index_of_method(self, method_name):
         index = 0
         for command in self.commands:
             if command.get_key() == "METHOD" and command.get_value() == method_name + ":":
                 return index
             index += 1
+
 
     # +++++ CONVERT INPUT TO LIST FULL OF COMMANDS +++++
     def convert_list_to_commands(self, lst):
@@ -138,7 +140,10 @@ class Ilex:
 
     # +++++ SORT THE COMMANDS THE WAY THEY SHOULD BE EXECUTED +++++
     def sort_commands(self, start_index, res_lst):
-        print(self.return_commands_readable(res_lst))
+        if start_index is None:
+            res_lst.append(Command("ERROR", "404"))
+            return res_lst
+
         if start_index >= len(self.commands) -1 or self.commands[start_index].get_value() is "HOLD":
             return res_lst
 
