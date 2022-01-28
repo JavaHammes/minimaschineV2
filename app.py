@@ -29,38 +29,36 @@ def submit():
 
     ilex.init_commands(commands)
 
-    programmcounter = ilex.get_programmzähler()
+    ilex.run_code(False)
+
+    regs = ilex.get_regs()
+
+    programmzähler = ilex.get_programmzähler()
     akkumulator = ilex.get_akkumulator()
-    befehleregister_key = ilex.get_befehlsregister_key()
-    befehleregister_value = ilex.get_befehlsregister_value()
-    
-    reg_1 = ilex.get_reg_1()
-    reg_2 = ilex.get_reg_2()
-    reg_3 = ilex.get_reg_3()
-    reg_4 = ilex.get_reg_4()
-    reg_5 = ilex.get_reg_5()
-    reg_6 = ilex.get_reg_6()
-    reg_7 = ilex.get_reg_7()
-    reg_8 = ilex.get_reg_8()
+    befehlsregister_key = ilex.get_befehlsregister_key()
+    befehlsregister_value = ilex.get_befehlsregister_value()
 
     ov = ilex.get_ov()
     zr = ilex.get_zr()
     sf = ilex.get_sf()
     pf = ilex.get_pf()
 
-
     return render_template(
         "index.html",
-        reg_1 = reg_1,
-        reg_2 = reg_2,
-        reg_3 = reg_3,
-        reg_4 = reg_4,
-        reg_5 = reg_5,
-        reg_6 = reg_6,
-        reg_7 = reg_7,
-        reg_8 = reg_8,
+        reg_1 = regs[0],
+        reg_2 = regs[1],
+        reg_3 = regs[2],
+        reg_4 = regs[3],
+        reg_5 = regs[4],
+        reg_6 = regs[5],
+        reg_7 = regs[6],
+        reg_8 = regs[7],
         ov = ov,
         zr = zr,
         sf = sf,
-        pf = pf
+        pf = pf,
+        programmzähler = programmzähler,
+        akkumulator = akkumulator,
+        befehlsregister_key = befehlsregister_key,
+        befehlsregister_value = befehlsregister_value
     )

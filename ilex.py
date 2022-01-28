@@ -8,25 +8,22 @@ class Ilex:
     # +++++ THE LIST OF COMMANDS THE USER ENTERED +++++
     commands = list()
 
-    # +++++ THE LIST OF COMMAND WE ARE WORKING WITH (fcommands -> final commands)+++++
-    fcommands = list()
-
-    # +++++ INDEX OF LIST WE ARE CURRENTLY EXECUTING +++++
-    programzähler = 0
-
     # ++++ RETURN VALUES +++++
     akkumulator = 0
     befehlsregister_key = ""
-    befehlsregister_value = 0
+    befehlsregister_value = ""
+    programmzähler = 0
 
-    reg_1 = 0000000000000000
-    reg_2 = 0000000000000000
-    reg_3 = 0000000000000000
-    reg_4 = 0000000000000000
-    reg_5 = 0000000000000000
-    reg_6 = 0000000000000000
-    reg_7 = 0000000000000000
-    reg_8 = 0000000000000000
+    regs = [
+        0000000000000000,
+        0000000000000000,
+        0000000000000000,
+        0000000000000000,
+        0000000000000000,
+        0000000000000000,
+        0000000000000000,
+        0000000000000000,
+    ]
 
     ov = 0
     zr = 0
@@ -35,20 +32,73 @@ class Ilex:
 
     # +++++ COMMANDS WE ALLOW TO BE RUN +++++
     valid_commands = [
-        "LOADI",
-        "STORE",
-        "JMP",
-        "HOLD",
         "#",
         "METHOD",
-        "ERROR"
+        "ERROR",
+        "LOADI",
+        "LOAD",
+        "STORE",
+        "ADD",
+        "SUB",
+        "MUL",
+        "DIV",
+        "MOD",
+        "CMP",
+        "ADDI",
+        "SUBI",
+        "MULI",
+        "DIVI",
+        "MODI",
+        "CMPI",
+        "AND",
+        "OR",
+        "XOR",
+        "NOT",
+        "SHL",
+        "SHR",
+        "ANDI",
+        "ORI",
+        "XORI",
+        "SHLI",
+        "SHRI",
+        "JMPP",
+        "JMPNN",
+        "JMPN",
+        "JMPNP",
+        "JMPZ",
+        "JMPV",
+        "JMP",
+        "JGT",
+        "JGE",
+        "JLT",
+        "JLE",
+        "JEQ",
+        "JNE",
+        "JOV",
+        "HOLD",
+        "NOOP"
     ]
 
     # +++++ IF THE KEY OF THE COMMAND IS EQUAL TO ANY OF THOSE THE VALUE IS AUTOMATICALY CORRECT +++++
     value_exceptions = [
         "METHOD",
         "HOLD",
-        "JMP"
+        "NOOP",
+        "JMPP",
+        "JMPNN",
+        "JMPN",
+        "JMPNP",
+        "JMPZ",
+        "JMPNZ",
+        "JMPV",
+        "JMP",
+        "JGT",
+        "JGE",
+        "JLT",
+        "JLE",
+        "JEQ",
+        "JNE",
+        "JOV"
     ]
 
     # +++++ METHOD NAMES THE USER DECLARED +++++
@@ -63,9 +113,7 @@ class Ilex:
         self.commands = commands
         self.check_valid()
         self.method_names = self.get_method_names()
-        # also declares fcommands inside the method
-        self.sort_commands(0,list())
-        print(self.return_commands_readable(self.fcommands))
+        print(self.return_commands_readable(self.commands))
 
     # +++++ RETURN COMMANDS IN A READABLE FORMAT {('KEY', 'VALUE')} +++++
     def return_commands_readable(self, commands):
@@ -88,6 +136,13 @@ class Ilex:
                 return index
             index += 1
 
+    # +++++ CONVERT INTEGER TO 16 LONG BIT-NUMBER +++++
+    def convert_to_bin16(self, integer):
+        return "0" * (16-len(bin(integer))+2) + str(bin(integer)[2:])
+
+    def convert_bin16_int(self, bin16):
+        return int(str(bin16)[str(bin16).find("1"):], 2)
+
     # +++++ CONVERT INPUT TO LIST FULL OF COMMANDS +++++
     def convert_list_to_commands(self, lst):
         res_lst = list()
@@ -104,6 +159,9 @@ class Ilex:
             elif "HOLD" in lst[i]:
                 res_lst.append(Command(lst[i], "END"))
                 i += 1
+            elif "NOOP" in lst[i]:
+                res_lst.append(Command(lst[i],"NO-OPERATION"))
+                i +=1
             elif "#" in lst[i]:
                 while i < len(lst):
                     i += 1
@@ -122,7 +180,7 @@ class Ilex:
 
     # +++++ CHECK IF EVERY INPUT WAS VALID +++++ 
     def check_valid(self):
-        assert len(self.valid_commands) == 7, "Vergessen check_valid zu updaten"
+        assert len(self.valid_commands) == 45, "Vergessen check_valid zu updaten"
         amount_of_valid_values = 0
         amount_of_valid_commands = 0
         amount_of_holds = 0
@@ -155,53 +213,261 @@ class Ilex:
 
         return True
 
-    # +++++ SORT THE COMMANDS THE WAY THEY SHOULD BE EXECUTED +++++
-    def sort_commands(self, start_index, res_lst):
-        if start_index is None:
-            res_lst.append(Command("ERROR", "404"))
-            self.fcommands = res_lst
-            return 
-
-        if start_index >= len(self.commands) -1 or self.commands[start_index].get_value() == "HOLD":
-            self.fcommands = res_lst
-            return
-
-        if self.commands[start_index].get_key() == "JMP":
-            called_method = self.commands[start_index].get_value()
-            if called_method not in self.method_names:
-                res_lst.append(Command("ERROR", "404"))
-                self.fcommands = res_lst
-                return
-        
-            res_lst.append(self.commands[start_index])
-            start_index = self.index_of_method(called_method)
-            self.sort_commands(start_index, res_lst)
-
-        elif self.commands[start_index].get_key() == "METHOD":
-            self.sort_commands(start_index +1, res_lst)
-
-        else:
-            res_lst.append(self.commands[start_index])
-            self.sort_commands(start_index+1, res_lst)
-
-
     # +++++ RUN CODE COMPLETLY +++++
     def run_code(self, single):
+        self.reset_values()
         if single is True:
             self.run_code_single()
             return
 
-    # ++++++ RUN CODE STEP BY STEP +++++
+        while self.commands[self.programmzähler].get_key() != "HOLD":
+            if self.programmzähler >= len(self.commands) -1:
+                return 
+            try:
+                print(self.programmzähler)
+                self.execute_command(self.commands[self.programmzähler]);
+            except AttributeError:
+                print(self.commands[self.programmzähler].get_key() + " method missing")
+
+
+    # +++++ RUN CODE STEP BY STEP +++++
     def run_code_single(self):
         pass
 
+    # +++++ EXECUTE ONE SPECIFIC COMMAND +++++
+    def execute_command(self, command):
+
+        key = command.get_key()
+        value = command.get_value()
+
+        self.befehlsregister_key = key
+        self.befehlsregister_value = value
+
+        getattr(Ilex, key)(self, value)
+
+
+    # +++++ RESET EVERY VALUE +++++
+    def reset_values(self):
+        self.akkumulator = 0
+        self.befehlsregister_key = ""
+        self.befehlsregister_value = ""
+        self.programzähler = 0
+
+        self.regs = [
+            0000000000000000,
+            0000000000000000,
+            0000000000000000,
+            0000000000000000,
+            0000000000000000,
+            0000000000000000,
+            0000000000000000,
+            0000000000000000,
+        ]
+
+        self.ov = 0
+        self.zr = 0
+        self.sf = 0
+        self.pf = 0
+
     # +++++ ILEX METHODS +++++
+
+    def LOAD(self, reg_num):
+        self.akkumulator = self.convert_bin16_int(self.regs[int(reg_num)-1])
+        self.programmzähler += 1
+
     def LOADI(self, number):
         self.akkumulator = number
+        self.programmzähler += 1
+
+    def STORE(self, reg_num):
+        self.regs[int(reg_num)-1] = self.convert_to_bin16(int(self.akkumulator))
+        self.programmzähler += 1
+
+    def ADD(self, reg_num):
+        self.akkumulator = int(self.akkumulator) + int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+        self.programmzähler += 1
+
+    def SUB(self, reg_num):
+        self.akkumulator = int(self.akkumulator) - int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+        self.programmzähler += 1
+
+    def MUL(self, reg_num):
+        self.akkumulator = int(self.akkumulator) * int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+        self.programmzähler += 1
+
+    def DIV(self, reg_num):
+        self.akkumulator = int(int(self.akkumulator) / int(self.convert_bin16_int(self.regs[int(reg_num)-1])))
+        self.programmzähler += 1
+
+    def MOD(self, reg_num):
+        self.akkumulator = int(self.akkumulator) % int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+        self.programmzähler += 1
+
+    def CMP(self, reg_num):
+        if self.akkumulator == int(self.convert_bin16_int(self.regs[int(reg_num)-1])):
+            self.zr = 1
+        else:
+            self.zr = 0
+        self.programmzähler += 1
+
+    def ADDI(self, number):
+        self.akkumulator += int(number)
+        self.programmzähler += 1
+
+    def SUBI(self, number):
+        self.akkumulator -= int(number)
+        self.programmzähler += 1
+
+    def MULI(self, number):
+        self.akkumulator *= int(number)
+        self.programmzähler += 1
+
+    def DIVI(self, number):
+        self.akkumulator = int(self.akkumulator / int(number))
+        self.programmzähler += 1
+
+    def MODI(self, number):
+        self.akkumulator = self.akkumulator % int(number)
+        self.programmzähler += 1
+
+    def CMPI(self, number):
+        if self.akkumulator == int(number):
+            self.zr = 1
+        else:
+            self.zr = 0
+        self.programmzähler += 1
+
+    def AND(self, reg_num):
+        self.akkumulator = self.akkumulator & int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+        self.ov = 0
+        self.programmzähler += 1
+
+    def OR(self, reg_num):
+        self.akkumulator = self.akkumulator | int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+        self.ov = 0
+        self.programmzähler += 1
+
+    def XOR(self, reg_num):
+        self.akkumulator = self.akkumulator ^ int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+        self.ov = 0 
+        self.programmzähler += 1   
+    
+    def NOT(self, reg_num):
+        self.akkumulator = ~int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+        self.ov = 0
+        self.programmzähler += 1
+
+    def SHL(self, reg_num):
+        self.akkumulator = self.akkumulator << int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+        self.programmzähler += 1
+
+    def SHR(self, reg_num):
+        self.akkumulator = self.akkumulator >> int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+        self.programmzähler += 1
+
+    def ANDI(self, number):
+        self.akkumulator = self.akkumulator & int(number)
+        self.ov = 0
+        self.programmzähler += 1
+
+    def ORI(self, number):
+        self.akkumulator = self.akkumulator | int(number)
+        self.ov = 0
+        self.programmzähler += 1
+
+    def XORI(self, number):
+        self.akkumulator = self.akkumulator ^ int(number)
+        self.ov = 0  
+        self.programmzähler += 1  
+    
+    def NOTI(self, number):
+        self.akkumulator = ~int(number)
+        self.ov = 0
+        self.programmzähler += 1
+
+    def SHLI(self, number):
+        self.akkumulator = self.akkumulator << int(number)
+        self.programmzähler += 1
+
+    def SHRI(self, number):
+        self.akkumulator = self.akkumulator >> int(number)
+        self.programmzähler += 1
+
+    def JMPP(self, method):
+        if self.zr == 0 and self.sf == 0:
+            self.JMP(method)
+        else:
+            self.programmzähler += 1
+
+    def JMPNN(self, method):
+        if self.sf == 0:
+            self.JMP(method)
+        else:
+            self.programmzähler += 1
+
+    def JMPN(self, method):
+        if self.sf == 1:
+            self.JMP(method)
+        else:
+            self.programmzähler += 1
+            
+    def JMPNP(self, method):
+        if self.zr == 1 or self.sf == 1:
+            self.JMP(method)
+        else:
+            self.programmzähler += 1
+
+    def JMPZ(self, method):
+        if self.zr == 1:
+            self.JMP(method)
+        else:
+            self.programmzähler += 1
+
+    def JMPNZ(self, method):
+        if self.zr == 0:
+            self.JMP(method)
+        else:
+            self.programmzähler += 1
+
+    def JMPV(self, method):
+        if self.ov == 1:
+            self.JMP(method)
+        else:
+            self.programmzähler += 1
+
+    def JMP(self, method):
+        self.programmzähler = self.index_of_method(method)+1
+
+    def JGT(self, method):
+        self.JMPP(method)
+
+    def JGE(self, method):
+        self.JMPNN(method)
+
+    def JLT(self, method):
+        self.JMPN(method)
+
+    def JLE(self, method):
+        self.JMNP(method)
+
+    def JEQ(self, method):
+        self.JMPZ(method)
+
+    def JNE(self, method):
+        self.JMPNZ(method)
+
+    def JOV(self, method):
+        self.JMPV(method)
+
+    def Error(self, number):
+        self.akkumulator = int(number)
+        self.programmzähler += 1
+
+
 
     # +++++ GET METHODS FOR APP.PY +++++
     def get_programmzähler(self):
-        return self.programzähler
+        return self.programmzähler
 
     def get_akkumulator(self):
         return self.akkumulator
@@ -212,32 +478,8 @@ class Ilex:
     def get_befehlsregister_value(self):
         return self.befehlsregister_value
 
-    def get_reg_1(self):
-        return self.reg_1
-
-    def get_reg_2(self):
-        return self.reg_2
-
-    def get_reg_2(self):
-        return self.reg_2
-
-    def get_reg_3(self):
-        return self.reg_3
-
-    def get_reg_4(self):
-        return self.reg_4
-
-    def get_reg_5(self):
-        return self.reg_5
-
-    def get_reg_6(self):
-        return self.reg_6
-
-    def get_reg_7(self):
-        return self.reg_7
-
-    def get_reg_8(self):
-        return self.reg_8
+    def get_regs(self):
+        return self.regs
 
     def get_ov(self):
         return self.ov
