@@ -57,7 +57,7 @@ class Ilex:
         method_names = list()
         for command in self.commands:
             if command.get_key() == "METHOD":
-                method_names.append(command.get_value())
+                method_names.append(command.get_value()[:-1])
         
         return method_names
 
@@ -65,7 +65,7 @@ class Ilex:
     def index_of_method(self, method_name):
         index = 0
         for command in self.commands:
-            if command.get_key() == "METHOD" and command.get_value() == method_name:
+            if command.get_key() == "METHOD" and command.get_value() == method_name + ":":
                 return index
             index += 1
 
@@ -141,15 +141,19 @@ class Ilex:
         print(self.return_commands_readable(res_lst))
         if start_index >= len(self.commands) -1 or self.commands[start_index].get_value() is "HOLD":
             return res_lst
-        
+
         if self.commands[start_index].get_key() == "JMP":
             called_method = self.commands[start_index].get_value()
             if called_method not in self.method_names:
                 res_lst.append(Command("ERROR", "404"))
                 return res_lst
         
+            res_lst.append(self.commands[start_index])
             start_index = self.index_of_method(called_method)
             self.sort_commands(start_index, res_lst)
+
+        elif self.commands[start_index].get_key() == "METHOD":
+            self.sort_commands(start_index +1, res_lst)
 
         else:
             res_lst.append(self.commands[start_index])
