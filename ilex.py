@@ -12,7 +12,26 @@ class Ilex:
     fcommands = list()
 
     # +++++ INDEX OF LIST WE ARE CURRENTLY EXECUTING +++++
-    programcounter = 0
+    programzähler = 0
+
+    # ++++ RETURN VALUES +++++
+    akkumulator = 0
+    befehlsregister_key = ""
+    befehlsregister_value = 0
+
+    reg_1 = 0000000000000000
+    reg_2 = 0000000000000000
+    reg_3 = 0000000000000000
+    reg_4 = 0000000000000000
+    reg_5 = 0000000000000000
+    reg_6 = 0000000000000000
+    reg_7 = 0000000000000000
+    reg_8 = 0000000000000000
+
+    ov = 0
+    zr = 0
+    sf = 0
+    pf = 0
 
     # +++++ COMMANDS WE ALLOW TO BE RUN +++++
     valid_commands = [
@@ -44,16 +63,15 @@ class Ilex:
         self.commands = commands
         self.check_valid()
         self.method_names = self.get_method_names()
-        self.fcommands = self.sort_commands(0, list())
-        #print(self.return_commands_readable(self.fcommands))
-        #print(self.return_commands_readable(self.fcommands))
+        # also declares fcommands inside the method
+        self.sort_commands(0,list())
+        print(self.return_commands_readable(self.fcommands))
 
     # +++++ RETURN COMMANDS IN A READABLE FORMAT {('KEY', 'VALUE')} +++++
     def return_commands_readable(self, commands):
         return list(command.get() for command in commands)
 
-    
-    # +++++ GET EVERY METHODS NAME WITHOUT ":"
+    # +++++ GET EVERY METHODS NAME WITHOUT ":" +++++
     def get_method_names(self):
         method_names = list()
         for command in self.commands:
@@ -69,7 +87,6 @@ class Ilex:
             if command.get_key() == "METHOD" and command.get_value() == method_name + ":":
                 return index
             index += 1
-
 
     # +++++ CONVERT INPUT TO LIST FULL OF COMMANDS +++++
     def convert_list_to_commands(self, lst):
@@ -142,16 +159,19 @@ class Ilex:
     def sort_commands(self, start_index, res_lst):
         if start_index is None:
             res_lst.append(Command("ERROR", "404"))
-            return res_lst
+            self.fcommands = res_lst
+            return 
 
-        if start_index >= len(self.commands) -1 or self.commands[start_index].get_value() is "HOLD":
-            return res_lst
+        if start_index >= len(self.commands) -1 or self.commands[start_index].get_value() == "HOLD":
+            self.fcommands = res_lst
+            return
 
         if self.commands[start_index].get_key() == "JMP":
             called_method = self.commands[start_index].get_value()
             if called_method not in self.method_names:
                 res_lst.append(Command("ERROR", "404"))
-                return res_lst
+                self.fcommands = res_lst
+                return
         
             res_lst.append(self.commands[start_index])
             start_index = self.index_of_method(called_method)
@@ -165,4 +185,68 @@ class Ilex:
             self.sort_commands(start_index+1, res_lst)
 
 
+    # +++++ RUN CODE COMPLETLY +++++
+    def run_code(self, single):
+        if single is True:
+            self.run_code_single()
+            return
 
+    # ++++++ RUN CODE STEP BY STEP +++++
+    def run_code_single(self):
+        pass
+
+    # +++++ ILEX METHODS +++++
+    def LOADI(self, number):
+        self.akkumulator = number
+
+    # +++++ GET METHODS FOR APP.PY +++++
+    def get_programmzähler(self):
+        return self.programzähler
+
+    def get_akkumulator(self):
+        return self.akkumulator
+    
+    def get_befehlsregister_key(self):
+        return self.befehlsregister_key
+
+    def get_befehlsregister_value(self):
+        return self.befehlsregister_value
+
+    def get_reg_1(self):
+        return self.reg_1
+
+    def get_reg_2(self):
+        return self.reg_2
+
+    def get_reg_2(self):
+        return self.reg_2
+
+    def get_reg_3(self):
+        return self.reg_3
+
+    def get_reg_4(self):
+        return self.reg_4
+
+    def get_reg_5(self):
+        return self.reg_5
+
+    def get_reg_6(self):
+        return self.reg_6
+
+    def get_reg_7(self):
+        return self.reg_7
+
+    def get_reg_8(self):
+        return self.reg_8
+
+    def get_ov(self):
+        return self.ov
+
+    def get_zr(self):
+        return self.zr
+
+    def get_sf(self):
+        return self.sf
+
+    def get_pf(self):
+        return self.pf
