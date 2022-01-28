@@ -14,6 +14,7 @@ textarea{
 
 p{
     color: blue;
+    font-size: x-large;
 }
 
 .row{
@@ -155,4 +156,10 @@ p{
 .Akkumulator, .Programmzähler, .Befehlsregister{
     margin-left: 10%;
     margin-right: 10%
+}
+
+.copyright{
+    margin-top: 5%;
+    color: white;
+    font-size: medium;
 }
