@@ -29,7 +29,7 @@
                             Akkumulator 
                         </p>
                         <div class="Akkumulator-Wert">
-                            0
+                            {{ akkumulator|default("0", true)}}
                         </div>
                     </div>
 
@@ -39,10 +39,10 @@
                         </p>
                         <div class="Befehlsregister-Ausgabe">
                             <div class="Befehlsregister-Befehl">
-                                LOADI
+                                {{ befehlsregister_key|default("----", true) }}
                             </div>
                             <div class="Befehlsregister-Wert">
-                                1
+                                {{ befehlsregister_value|default("----", true) }}
                             </div>
                         </div>
                     </div>
@@ -52,7 +52,7 @@
                             Programmzähler
                         </p>
                         <div class="Programmzähler-Zähler">
-                            0
+                            {{ programmzähler|default("0", true) }}
                         </div>
                     </div>
                 </div>

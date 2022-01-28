@@ -29,19 +29,24 @@ def submit():
 
     ilex.init_commands(commands)
 
-    reg_1 = 0000000000000000
-    reg_2 = 0000000000000000
-    reg_3 = 0000000000000000
-    reg_4 = 0000000000000000
-    reg_5 = 0000000000000000
-    reg_6 = 0000000000000000
-    reg_7 = 0000000000000000
-    reg_8 = 0000000000000000
+    programmcounter = ilex.get_programmzähler()
+    akkumulator = ilex.get_akkumulator()
+    befehleregister_key = ilex.get_befehlsregister_key()
+    befehleregister_value = ilex.get_befehlsregister_value()
+    
+    reg_1 = ilex.get_reg_1()
+    reg_2 = ilex.get_reg_2()
+    reg_3 = ilex.get_reg_3()
+    reg_4 = ilex.get_reg_4()
+    reg_5 = ilex.get_reg_5()
+    reg_6 = ilex.get_reg_6()
+    reg_7 = ilex.get_reg_7()
+    reg_8 = ilex.get_reg_8()
 
-    ov = 0
-    zr = 0
-    sf = 0
-    pf = 0
+    ov = ilex.get_ov()
+    zr = ilex.get_zr()
+    sf = ilex.get_sf()
+    pf = ilex.get_pf()
 
 
     return render_template(
