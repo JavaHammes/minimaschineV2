@@ -1,4 +1,3 @@
-from atexit import register
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -29,9 +28,6 @@ def submit():
     commands = ilex.convert_list_to_commands(request.form['text'].split())
 
     ilex.init_commands(commands)
-
-    value = ilex.return_commands_readable()
-    print(value)
 
     reg_1 = 0000000000000000
     reg_2 = 0000000000000000
