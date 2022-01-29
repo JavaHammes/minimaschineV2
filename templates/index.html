@@ -61,38 +61,36 @@
             <table class="reg_table">
 
                 <tr>
-                    <th class="tg-reg">R1= {{ reg_1|default("0000000000000000",true) }}</th>
-                    <th class="tg-reg">R2= {{ reg_2|default("0000000000000000",true) }}</th>
+                    <th class="tg-reg" title="{{ reg_1_numeric|default('0',true) }}">R1= {{ reg_1|default("0000000000000000",true) }}</th>
+                    <th class="tg-reg" title="{{ reg_2_numeric|default('0',true) }}">R2= {{ reg_2|default("0000000000000000",true) }}</th>
                 </tr>
                 <tr>
-                    <td class="tg-reg">R3= {{ reg_3|default("0000000000000000",true) }}</td>
-                    <td class="tg-reg">R4= {{ reg_4|default("0000000000000000",true) }}</td>
+                    <td class="tg-reg" title="{{ reg_3_numeric|default('0',true) }}">R3= {{ reg_3|default("0000000000000000",true) }}</td>
+                    <td class="tg-reg" title="{{ reg_4_numeric|default('0',true) }}">R4= {{ reg_4|default("0000000000000000",true) }}</td>
                 </tr>
                 <tr>
-                    <td class="tg-reg">R5= {{ reg_5|default("0000000000000000",true) }}</td>
-                    <td class="tg-reg">R6= {{ reg_6|default("0000000000000000",true) }}</td>
+                    <td class="tg-reg" title="{{ reg_5_numeric|default('0',true) }}">R5= {{ reg_5|default("0000000000000000",true) }}</td>
+                    <td class="tg-reg" title="{{ reg_6_numeric|default('0',true) }}">R6= {{ reg_6|default("0000000000000000",true) }}</td>
                 </tr>
                 <tr>
-                    <td class="tg-reg">R7= {{ reg_7|default("0000000000000000",true) }}</td>
-                    <td class="tg-reg">R8= {{ reg_8|default("0000000000000000",true) }}</td>
+                    <td class="tg-reg" title="{{ reg_7_numeric|default('0',true) }}">R7= {{ reg_7|default("0000000000000000",true) }}</td>
+                    <td class="tg-reg" title="{{ reg_8_numeric|default('0',true) }}">R8= {{ reg_8|default("0000000000000000",true) }}</td>
                 </tr>
 
                 <tr>
-                    <td class="tg-flag">OV= {{ ov|default("0",true)}} </td> <!-- Overflow flag: 1->Overflowed 0->Didn't overflow-->
-                    <td class="tg-flag">ZR= {{ zr|default("0",true)}} </td> <!-- Zero Flag: 1->Zero 0->Not Zero-->
+                    <td class="tg-flag" title="OverFlow-Flag">OF= {{ ov|default("0",true)}} </td>
+                    <td class="tg-flag" title="Zero-Flag">ZR= {{ zr|default("0",true)}} </td>
                 </tr>
                 <tr>
-                    <td class="tg-flag">SF= {{ sf|default("0",true)}} </td> <!-- Sign Flag: 1->Negative 0->Positive-->
-                    <td class="tg-flag">PF= {{ pf|default("0",true)}} </td> <!-- Parity Flag: 1->Parity Even 0->Parity Odd-->
+                    <td class="tg-flag" title="Sign-Flag">SF= {{ sf|default("0",true)}} </td>
+                    <td class="tg-flag" title="Parity-Flag">PF= {{ pf|default("0",true)}} </td>
                 </tr>
                 </table>
-            
+
             <div class="footer">
-                <button class="buttons">Button</button>
-                <button class="buttons">Button</button>
-                <button class="buttons">Button</button>
-                <button class="buttons">Button</button>
-                <button class="buttons">Button</button>
+                <a href="/befehle" target="blank" class="links"><input type="button" value="Befehle" class="buttons"></a> 
+                <a href="/errors" target="blank" class="links"><input type="button" value="Error-Codes" class="buttons"></a> 
+                <a href="/safe_to_txt" target="blank" class="links"><input type="button" value="safe to txt" class="buttons"></a> 
             </div>
 
             <p class="copyright">

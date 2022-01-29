@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>Minimaschine</title>
+</head>
+<body>
+    <style type="text/css">
+        .tg  {
+            border-collapse:collapse;border-spacing:0;
+        }
+        .tg td{
+            border-color:black;
+            border-style:solid;
+            border-width:1px;
+            font-family:Arial, sans-serif;
+            font-size:18px;
+            overflow:hidden;
+            padding:10px 5px;
+            word-break:normal;
+        }
+        .tg th{
+            border-color:black;
+            border-style:solid;
+            border-width:1px;
+            font-family:Arial, sans-serif;
+            font-size:18px;
+            font-weight:normal;
+            overflow:hidden;
+            padding:10px 5px;
+            word-break:normal;
+        }
+        .tg .tg-ieig{
+            border-color:inherit;
+            font-size:18px;
+            text-align:left;
+            vertical-align:middle
+        }
+        .tg .tg-0pky{
+            border-color:inherit;
+            text-align:left;
+            vertical-align:top
+        }
+    </style>
+    <h1>
+        Assembler – Befehle der Minimaschine
+    </h1>
+    <hr>
+    <h2>
+        Speicherbefehle
+    </h2>
+        <table class="tg">
+        <thead>
+        <tr>
+            <th class="tg-ieig">LOAD adresse</th>
+            <th class="tg-0pky">Lädt den Wert von der angegebenen Adresse in den Akkumulator.</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="tg-0pky">LOADI zahl</td>
+            <td class="tg-0pky">Lädt die angegebenen Zahl in den Akkumulator, negative Werte sind möglich,
+                Adressen sind nicht zulässig.</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">STORE adresse</td>
+            <td class="tg-0pky">Speichert den Wert im Akkumulator an der angegebenen Adresse.</td>
+        </tr>
+        </tbody>
+        </table>
+    <h2>
+        Arithmetikbefehle
+    </h2>
+    <table class="tg">
+        <thead>
+        <tr>
+            <th class="tg-ieig">ADD adresse</th>
+            <th class="tg-0pky">Addiert den Wert von der angegebenen Adresse zum Akkumulator.</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td class="tg-0pky">SUB adresse</td>
+            <td class="tg-0pky">Subtrahiert den Wert der angegebenen Adresse vom Akkumulator.</td>
+        </tr>
+        <tr>
+            <td class="tg-0pky">MUL adresse</td>
+            <td class="tg-0pky">Multipliziert den Wert von der angegebenen Adresse zum Akkumulator.</td>
+        </tr>
+        <tr>
+            <td class="tg-0lax">DIV adresse</td>
+            <td class="tg-0lax">Dividiert den Wert im Akkumulator durch den Wert der angegebenen Adresse.</td>
+        </tr>
+        <tr>
+            <td class="tg-0lax">MOD adresse</td>
+            <td class="tg-0lax">Dividiert den Wert im Akkumulator durch den Wert der angegebenen Adresse
+                und speichert den Rest im Akkumulator.</td>
+        </tr>
+        <tr>
+            <td class="tg-0lax">CMP adresse</td>
+            <td class="tg-0lax">Vergleicht den Wert der angegebenen Adresse mit dem Akkumulator und setzt
+                Null- und Negativflag entsprechend.</td>
+        </tr>
+        <tr>
+            <td class="tg-0lax">ADDI zahl</td>
+            <td class="tg-0lax">Addiert den angegebenen Wert zum Akkumulator.</td>
+        </tr>
+        <tr>
+            <td class="tg-0lax">SUBI zahl</td>
+            <td class="tg-0lax">Subtrahiert den angegebenen Wert vom Akkumulator.</td>
+        </tr>
+        <tr>
+            <td class="tg-0lax">MULI zahl</td>
+            <td class="tg-0lax">Multipliziert den angegebenen Wert zum Akkumulator.</td>
+        </tr>
+        <tr>
+            <td class="tg-0lax">DIVI zahl</td>
+            <td class="tg-0lax">Dividiert den Wert im Akkumulator durch den angegebenen Wert.</td>
+        </tr>
+        <tr>
+            <td class="tg-0lax">MODI zahl</td>
+            <td class="tg-0lax">Dividiert den Wert im Akkumulator durch den angegebenen Wert und speichert
+                den Rest im Akkumulator.</td>
+        </tr>
+        <tr>
+            <td class="tg-0lax">CMPI zahl</td>
+            <td class="tg-0lax">Vergleicht den angegebenen Wert mit dem Akkumulator und setzt Null- und
+                Negativflag entsprechend.</td>
+        </tr>
+        </tbody>
+        </table>
+    <h2>
+        Bitmanipulationsbefehle
+    </h2>
+        <table class="tg">
+            <thead>
+            <tr>
+                <th class="tg-ieig">AND adresse</th>
+                <th class="tg-0pky">Bitweise logische Und-Verknüpfung des Werts der angegebenen Adresse mit
+                    dem Akkumulator.</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="tg-0pky">OR adresse</td>
+                <td class="tg-0pky">Bitweise logische Oder-Verknüpfung des Werts der angegebenen Adresse mit
+                    dem Akkumulator.</td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">XOR adresse</td>
+                <td class="tg-0pky">Bitweise logische Exklusiv-Oder-Verknüpfung des Werts der angegebenen
+                    Adresse mit dem Akkumulator.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">NOT</td>
+                <td class="tg-0lax">Bitweise logische Invertierung des Werts im Akkumulator.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">SHL adresse</td>
+                <td class="tg-0lax">Die Bitfolge im Akkumulator wird um die unter der angegebenen Adresse
+                    gespeicherten Anzahl Bits nach links geschoben.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">SHR adresse</td>
+                <td class="tg-0lax">Die Bitfolge im Akkumulator wird um die unter der angegebenen Adresse
+                    gespeicherten Anzahl Bits nach rechts geschoben.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">ANDI zahl</td>
+                <td class="tg-0lax">Bitweise logische Und-Verknüpfung der angegebenen Zahl mit dem
+                    Akkumulator.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">ORI zahl</td>
+                <td class="tg-0lax">Bitweise logische Oder-Verknüpfung der angegebenen Zahl mit dem
+                    Akkumulator.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">XORI zahl</td>
+                <td class="tg-0lax">Bitweise logische Exklusiv-Oder-Verknüpfung der angegebenen Zahl mit dem
+                    Akkumulator.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">SHLI zahl</td>
+                <td class="tg-0lax">Die Bitfolge im Akkumulator wird um die angegebene Anzahl Bits nach links
+                    geschoben.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">SHRI zahl</td>
+                <td class="tg-0lax">Die Bitfolge im Akkumulator wird um die angegebene Anzahl Bits nach rechts
+                    geschoben.</td>
+            </tr>
+            </tbody>
+            </table>
+    <h2>
+        Sprungbefehle
+    </h2>
+        <table class="tg">
+            <thead>
+            <tr>
+                <th class="tg-ieig">JMPP adresse</th>
+                <th class="tg-0pky">Springt zur angegebenen Adresse, wenn das Ergebnis der letzen Operation
+                    positiv (> 0) war, d. h. weder SF noch ZR-Flag sind gesetzt.</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="tg-0pky">JMPNN adresse</td>
+                <td class="tg-0pky">Springt zur angegebenen Adresse, wenn das Ergebnis der letzen Operation
+                    nicht negativ (≥ 0) war, d. h. das SF-Flag ist nicht gesetzt.</td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">JMPN adresse</td>
+                <td class="tg-0pky">Springt zur angegebenen Adresse, wenn das Ergebnis der letzen Operation
+                    negativ (< 0) war, d. h. das SF-Flag ist gesetzt.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">JMPNP adresse</td>
+                <td class="tg-0lax">Springt zur angegebenen Adresse, wenn das Ergebnis der letzen Operation
+                    nicht positiv (≤ 0) war, d. h. das SF-Flag oder as ZR-Flag ist gesetzt.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">JMPZ adresse</td>
+                <td class="tg-0lax">Springt zur angegebenen Adresse, wenn das Ergebnis der letzen Operation
+                    nicht positiv (≤ 0) war, d. h. das SF-Flag oder as ZR-Flag ist gesetzt.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">JMPNZ adresse </td>
+                <td class="tg-0lax">Springt zur angegebenen Adresse, wenn das Ergebnis der letzen Operation
+                    nicht null (≠ 0) war, d. h. das ZR-Flag ist nicht gesetzt.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">JMPV adresse</td>
+                <td class="tg-0lax">Springt zur angegebenen Adresse, wenn die letzte Operation einen Überlauf
+                    verursacht hat, d. h. das OF-Flag ist gesetzt.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">JMP adresse</td>
+                <td class="tg-0lax">Springt zur angegebenen Adresse.</td>
+            </tr>
+            </tbody>
+            </table>
+    <h2>
+        Alternative Notation der Sprungbefehle
+    </h2>
+        <table class="tg">
+            <thead>
+            <tr>
+                <th class="tg-ieig">JGT adresse</th>
+                <th class="tg-0pky">Springt zur angegebenen Adresse, wenn das Ergebnis der letzen Operation
+                    positiv (> 0) war, d. h. weder SF noch ZR-Flag sind gesetzt.</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td class="tg-0pky">JGE adresse</td>
+                <td class="tg-0pky">Springt zur angegebenen Adresse, wenn das Ergebnis der letzen Operation
+                    nicht negativ (≥ 0) war, d. h. das SF-Flag ist nicht gesetzt.</td>
+            </tr>
+            <tr>
+                <td class="tg-0pky">JLT adresse</td>
+                <td class="tg-0pky">Springt zur angegebenen Adresse, wenn das Ergebnis der letzen Operation
+                    negativ (< 0) war, d. h. das SF-Flag ist gesetzt.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">JLE adresse</td>
+                <td class="tg-0lax">Springt zur angegebenen Adresse, wenn das Ergebnis der letzen Operation
+                    nicht positiv (≤ 0) war, d. h. das SF-Flag oder as ZR-Flag ist gesetzt.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">JEQ adresse</td>
+                <td class="tg-0lax">Springt zur angegebenen Adresse, wenn das Ergebnis der letzen Operation
+                    null (= 0) war, d. h. das ZR-Flag ist gesetzt.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">JNE adresse</td>
+                <td class="tg-0lax">Springt zur angegebenen Adresse, wenn das Ergebnis der letzen Operation
+                    nicht null (≠ 0) war, d. h. das ZR-Flag ist nicht gesetzt.</td>
+            </tr>
+            <tr>
+                <td class="tg-0lax">JOV adresse</td>
+                <td class="tg-0lax">Springt zur angegebenen Adresse, wenn die letzte Operation einen Überlauf
+                    verursacht hat, d. h. das OF-Flag ist gesetzt.</td>
+            </tr>
+            </tbody>
+            </table>
+    <h2>
+        Sonstige Befehle
+    </h2>
+        <table class="tg">
+            <thead>
+            <tr>
+                <td class="tg-ieig">HOLD</td>
+                <td class="tg-0lax">Hält den Prozessor an.</td>
+            </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="tg-0lax">NOOP</td>
+                    <td class="tg-0lax">Tut einfach nichts (NO OPeration).</td>
+                </tr>
+                <tr>
+                    <td class="tg-0lax"># Kommentar #</td>
+                    <td class="tg-0lax">Kommentar, wird nicht bei der Ausführung des Programms beachtet</td>
+                </tr>
+            </tbody>
+            </table>
+</body>
+</html>
