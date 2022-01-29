@@ -11,9 +11,6 @@ app = Flask(__name__)
 code_input = ""
 ilex = Ilex()
 
-# +++++ METHODS +++++
-
-
 # +++++ FLASK METHODS +++++
 
 @app.route("/")
@@ -29,7 +26,10 @@ def submit():
 
     ilex.init_commands(commands)
 
-    ilex.run_code(False)
+    try:
+        ilex.run_code(False)
+    except Exception:
+        ilex.set_every_value(500)
 
     regs = ilex.get_regs()
 
