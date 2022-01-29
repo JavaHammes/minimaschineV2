@@ -2,11 +2,16 @@
 # +++++ "EASY ASSEMBLY" ++++++
 
 from command import Command
+from errors import Error
+import time
 
 class Ilex:
 
     # +++++ THE LIST OF COMMANDS THE USER ENTERED +++++
     commands = list()
+
+    # +++++ LIST CONTAINING EVERY ERROR IN USERS PROGRAM +++++
+    errors = list()
 
     # ++++ RETURN VALUES +++++
     akkumulator = 0
@@ -34,7 +39,6 @@ class Ilex:
     valid_commands = [
         "#",
         "METHOD",
-        "ERROR",
         "LOADI",
         "LOAD",
         "STORE",
@@ -79,7 +83,7 @@ class Ilex:
         "NOOP"
     ]
 
-    # +++++ IF THE KEY OF THE COMMAND IS EQUAL TO ANY OF THOSE THE VALUE IS AUTOMATICALY CORRECT +++++
+    # +++++ IF THE KEY OF THE COMMAND IS EQUAL TO ANY OF THOSE, THE VALUE IS AUTOMATICLY CORRECT +++++
     value_exceptions = [
         "METHOD",
         "HOLD",
@@ -101,7 +105,7 @@ class Ilex:
         "JOV"
     ]
 
-    # +++++ METHOD NAMES THE USER DECLARED +++++
+    # +++++ METHODNAMES THE USER DECLARED +++++
     method_names = list()
 
     # +++++ EMPTY CONSTRUCTOR +++++
@@ -110,10 +114,10 @@ class Ilex:
 
     # +++++ INITIAL COMMANDS AND VARIABLES +++++
     def init_commands(self, commands):
+        self.set_every_value(0)
         self.commands = commands
         self.check_valid()
         self.method_names = self.get_method_names()
-        print(self.return_commands_readable(self.commands))
 
     # +++++ RETURN COMMANDS IN A READABLE FORMAT {('KEY', 'VALUE')} +++++
     def return_commands_readable(self, commands):
@@ -125,10 +129,10 @@ class Ilex:
         for command in self.commands:
             if command.get_key() == "METHOD":
                 method_names.append(command.get_value()[:-1])
-        
+
         return method_names
 
-    # +++++ RETURN INDEX OF METHOD NAME +++++
+    # +++++ RETURN INDEX OF METHODNAME +++++
     def index_of_method(self, method_name):
         index = 0
         for command in self.commands:
@@ -140,15 +144,16 @@ class Ilex:
     def convert_to_bin16(self, integer):
         return "0" * (16-len(bin(integer))+2) + str(bin(integer)[2:])
 
+    # +++++ CONVERT 16 LONG BIT-NUMBER TO INTEGER +++++
     def convert_bin16_int(self, bin16):
         return int(str(bin16)[str(bin16).find("1"):], 2)
 
-    # +++++ CONVERT INPUT TO LIST FULL OF COMMANDS +++++
+    # +++++ CONVERT INPUT TO LIST FULL OF COMMANDS [Command, Command, Command...]+++++
     def convert_list_to_commands(self, lst):
         res_lst = list()
         
         if len(lst) < 4:
-            res_lst.append(Command("ERROR", "403"))
+            self.errors.append(Error(403))
             return res_lst
 
         i = 0
@@ -173,22 +178,18 @@ class Ilex:
                     res_lst.append(Command(lst[i], lst[i+1]))        
                     i += 2
                 except IndexError:
-                    res_lst.append(Command("ERROR", "402"))
+                    self.errors.append(Error(402))
                     return res_lst
 
         return res_lst
 
     # +++++ CHECK IF EVERY INPUT WAS VALID +++++ 
     def check_valid(self):
-        assert len(self.valid_commands) == 45, "Vergessen check_valid zu updaten"
+        assert len(self.valid_commands) == 44, "Vergessen check_valid zu updaten"
         amount_of_valid_values = 0
         amount_of_valid_commands = 0
-        amount_of_holds = 0
 
         for command in self.commands:
-
-            if command.get_key() == "HOLD":
-                amount_of_holds += 1
 
             if command.get_key() in self.value_exceptions:
                 amount_of_valid_values += 1
@@ -200,34 +201,40 @@ class Ilex:
                 amount_of_valid_values += 1
 
         if amount_of_valid_commands < len(self.commands):
-            self.commands.append(Command("Error", "402"))
+            self.errors.append(Error(402))
             return False
 
         if amount_of_valid_values < len(self.commands):
-            self.commands.append(Command("Error", "400"))
-            return False
-
-        if amount_of_holds is 0:
-            self.commands.append(Command("Error", "401"))
+            self.errors.append(Error(401))
             return False
 
         return True
 
     # +++++ RUN CODE COMPLETLY +++++
     def run_code(self, single):
-        self.reset_values()
+        if self.errors:
+            self.errors.sort(key=Error.importance)
+            self.set_every_value(self.errors[0].error_value)
+            return
+        
         if single is True:
             self.run_code_single()
             return
 
         while self.commands[self.programmzähler].get_key() != "HOLD":
+            if self.errors:
+                self.errors.sort(key=Error.importance)
+                self.set_every_value(self.errors[0].error_value)
+                return
             if self.programmzähler >= len(self.commands) -1:
+                self.errors.append(Error(400))
+                self.set_every_value(400)
                 return 
             try:
-                print(self.programmzähler)
                 self.execute_command(self.commands[self.programmzähler]);
             except AttributeError:
                 print(self.commands[self.programmzähler].get_key() + " method missing")
+                self.programmzähler += 1
 
 
     # +++++ RUN CODE STEP BY STEP +++++
@@ -245,14 +252,45 @@ class Ilex:
 
         getattr(Ilex, key)(self, value)
 
+    # +++++ METHOD TO SET EVERY VALUE TO ONE SPECIFIC VALUE +++++
+    def set_every_value(self, value):
+        self.akkumulator = value
+        self.programmzähler = value
 
-    # +++++ RESET EVERY VALUE +++++
-    def reset_values(self):
-        self.akkumulator = 0
-        self.befehlsregister_key = ""
-        self.befehlsregister_value = ""
-        self.programzähler = 0
+        if value == 0:
+            self.befehlsregister_key = ""
+            self.befehlsregister_value = ""
+            self.reset_regs()
+            self.reset_flags()
+            self.errors = list()
+        else:
+            self.befehlsregister_key = str(value)
+            self.befehlsregister_value = str(value)
+            self.regs = [
+                value,
+                value,
+                value,
+                value,
+                value,
+                value,
+                value,
+                value,
+            ]
 
+            self.ov = value
+            self.zr = value
+            self.sf = value
+            self.pf = value
+
+    # +++++ RESET EVERY FLAG +++++
+    def reset_flags(self):
+        self.ov = 0
+        self.zr = 0
+        self.sf = 0
+        self.pf = 0
+
+    # +++++ RESET EVERY REGISTER +++++
+    def reset_regs(self):
         self.regs = [
             0000000000000000,
             0000000000000000,
@@ -262,12 +300,7 @@ class Ilex:
             0000000000000000,
             0000000000000000,
             0000000000000000,
-        ]
-
-        self.ov = 0
-        self.zr = 0
-        self.sf = 0
-        self.pf = 0
+        ]        
 
     # +++++ ILEX METHODS +++++
 
@@ -436,7 +469,11 @@ class Ilex:
             self.programmzähler += 1
 
     def JMP(self, method):
-        self.programmzähler = self.index_of_method(method)+1
+        if method in self.method_names:
+            self.programmzähler = self.index_of_method(method)+1
+        else:
+            self.errors.append(Error(404))
+            self.programmzähler += 1
 
     def JGT(self, method):
         self.JMPP(method)
@@ -459,8 +496,12 @@ class Ilex:
     def JOV(self, method):
         self.JMPV(method)
 
-    def Error(self, number):
-        self.akkumulator = int(number)
+    def NOOP(self, no_operation):
+        time.sleep(0.01)
+        self.programmzähler += 1
+        self.reset_flags()
+
+    def METHOD(self, value):
         self.programmzähler += 1
 
 
