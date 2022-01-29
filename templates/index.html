@@ -15,7 +15,7 @@
     <div class="row">
         <div class="column-left">
             <form action="{{ url_for('submit') }}" method="post" class="input_form">
-                <textarea name="text" id="code"></textarea>
+                <textarea name="text" id="code"> {{ code_input|default("",true) }} </textarea>
                 <input type="submit" class="submit_button" value="Run Code">
             </form>
         </div>

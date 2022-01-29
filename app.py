@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from flask import render_template
 from flask import request
@@ -22,8 +23,9 @@ def home():
 @app.route("/submit", methods=["POST"])
 def submit():
 
-    commands = ilex.convert_list_to_commands(request.form['text'].split())
+    code_input = os.linesep.join([s for s in request.form['text'].splitlines() if s]).lstrip()
 
+    commands = ilex.convert_list_to_commands(request.form['text'].split())
     ilex.init_commands(commands)
 
     try:
@@ -33,7 +35,7 @@ def submit():
 
     regs = ilex.get_regs()
 
-    programmzähler = ilex.get_programmzähler()
+    programmzähler = ilex.get_programmzähler() + 1
     akkumulator = ilex.get_akkumulator()
     befehlsregister_key = ilex.get_befehlsregister_key()
     befehlsregister_value = ilex.get_befehlsregister_value()
@@ -45,6 +47,7 @@ def submit():
 
     return render_template(
         "index.html",
+        code_input = code_input,
         reg_1 = regs[0],
         reg_2 = regs[1],
         reg_3 = regs[2],
