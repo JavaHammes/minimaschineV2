@@ -12,6 +12,12 @@ app = Flask(__name__)
 code_input = ""
 ilex = Ilex()
 
+# +++++ METHODS +++++
+
+def to_number(bin16):
+    return int(str(bin16)[str(bin16).find("1"):], 2)
+
+
 # +++++ FLASK METHODS +++++
 
 @app.route("/")
@@ -22,20 +28,19 @@ def home():
 
 @app.route("/submit", methods=["POST"])
 def submit():
-
     code_input = os.linesep.join([s for s in request.form['text'].splitlines() if s]).lstrip()
 
     commands = ilex.convert_list_to_commands(request.form['text'].split())
     ilex.init_commands(commands)
 
     try:
-        ilex.run_code(False)
+        ilex.run_code()
     except Exception:
         ilex.set_every_value(500)
 
     regs = ilex.get_regs()
 
-    programmzähler = ilex.get_programmzähler() + 1
+    programmzähler = ilex.get_programmzähler()
     akkumulator = ilex.get_akkumulator()
     befehlsregister_key = ilex.get_befehlsregister_key()
     befehlsregister_value = ilex.get_befehlsregister_value()
@@ -44,6 +49,15 @@ def submit():
     zr = ilex.get_zr()
     sf = ilex.get_sf()
     pf = ilex.get_pf()
+
+    reg_1_numeric = to_number(regs[0])
+    reg_2_numeric = to_number(regs[1])
+    reg_3_numeric = to_number(regs[2])
+    reg_4_numeric = to_number(regs[3])
+    reg_5_numeric = to_number(regs[4])
+    reg_6_numeric = to_number(regs[5])
+    reg_7_numeric = to_number(regs[6])
+    reg_8_numeric = to_number(regs[7])
 
     return render_template(
         "index.html",
@@ -56,6 +70,14 @@ def submit():
         reg_6 = regs[5],
         reg_7 = regs[6],
         reg_8 = regs[7],
+        reg_1_numeric = reg_1_numeric,
+        reg_2_numeric = reg_2_numeric,
+        reg_3_numeric = reg_3_numeric,
+        reg_4_numeric = reg_4_numeric,
+        reg_5_numeric = reg_5_numeric,
+        reg_6_numeric = reg_6_numeric,
+        reg_7_numeric = reg_7_numeric,
+        reg_8_numeric = reg_8_numeric,
         ov = ov,
         zr = zr,
         sf = sf,
@@ -65,3 +87,19 @@ def submit():
         befehlsregister_key = befehlsregister_key,
         befehlsregister_value = befehlsregister_value
     )
+
+@app.route("/befehle")
+def befehle():
+    return render_template (
+        "befehle.html"
+    )
+
+@app.route("/errors")
+def errors():
+    return render_template (
+        "errors.html"
+    )
+
+@app.route("/safe_to_txt")
+def safe_to_txt():
+    pass

@@ -102,7 +102,8 @@ class Ilex:
         "JLE",
         "JEQ",
         "JNE",
-        "JOV"
+        "JOV",
+        "NOT"
     ]
 
     # +++++ METHODNAMES THE USER DECLARED +++++
@@ -166,7 +167,10 @@ class Ilex:
                 i += 1
             elif "NOOP" in lst[i]:
                 res_lst.append(Command(lst[i],"NO-OPERATION"))
-                i +=1
+                i += 1
+            elif "NOT" in lst[i]:
+                res_lst.append(Command(lst[i],"NOT"))
+                i += 1
             elif "#" in lst[i]:
                 while i < len(lst):
                     i += 1
@@ -210,15 +214,11 @@ class Ilex:
 
         return True
 
-    # +++++ RUN CODE COMPLETLY +++++
-    def run_code(self, single):
+    # +++++ RUN CODE +++++
+    def run_code(self):
         if self.errors:
             self.errors.sort(key=Error.importance)
             self.set_every_value(self.errors[0].error_value)
-            return
-        
-        if single is True:
-            self.run_code_single()
             return
 
         while self.commands[self.programmzähler].get_key() != "HOLD":
@@ -235,11 +235,6 @@ class Ilex:
             except AttributeError:
                 print(self.commands[self.programmzähler].get_key() + " method missing")
                 self.programmzähler += 1
-
-
-    # +++++ RUN CODE STEP BY STEP +++++
-    def run_code_single(self):
-        pass
 
     # +++++ EXECUTE ONE SPECIFIC COMMAND +++++
     def execute_command(self, command):
@@ -385,8 +380,8 @@ class Ilex:
         self.ov = 0 
         self.programmzähler += 1   
     
-    def NOT(self, reg_num):
-        self.akkumulator = ~int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+    def NOT(self, NOT):
+        self.akkumulator = ~self.akkumulator
         self.ov = 0
         self.programmzähler += 1
 
