@@ -15,7 +15,10 @@ ilex = Ilex()
 # +++++ METHODS +++++
 
 def to_number(bin16):
-    return int(str(bin16)[str(bin16).find("1"):], 2)
+    try:
+        return int(str(bin16)[str(bin16).find("1"):], 2)
+    except ValueError:
+        return bin16
 
 
 # +++++ FLASK METHODS +++++
@@ -99,7 +102,3 @@ def errors():
     return render_template (
         "errors.html"
     )
-
-@app.route("/safe_to_txt")
-def safe_to_txt():
-    pass
