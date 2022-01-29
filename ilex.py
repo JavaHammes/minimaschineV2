@@ -205,11 +205,11 @@ class Ilex:
                 amount_of_valid_values += 1
 
         if amount_of_valid_commands < len(self.commands):
-            self.errors.append(Error(402))
+            self.errors.append(Error(401))
             return False
 
         if amount_of_valid_values < len(self.commands):
-            self.errors.append(Error(401))
+            self.errors.append(Error(402))
             return False
 
         return True

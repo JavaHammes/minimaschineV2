@@ -90,7 +90,8 @@
             <div class="footer">
                 <a href="/befehle" target="blank" class="links"><input type="button" value="Befehle" class="buttons"></a> 
                 <a href="/errors" target="blank" class="links"><input type="button" value="Error-Codes" class="buttons"></a> 
-                <a href="/safe_to_txt" target="blank" class="links"><input type="button" value="safe to txt" class="buttons"></a> 
+                <a href="/" class="links"> <input type="button" id="download" value="Safe to txt" class="buttons"></a>
+                <!--<button class="buttons" id="download">Safe to txt</button> -->
             </div>
 
             <p class="copyright">
@@ -111,7 +112,7 @@
 
     <!-- +++++ ENABLE TAB IN TEXTAREA +++++ -->
     <script>
-        document.getElementById('textbox').addEventListener('keydown', function(e) {
+        document.getElementById('code').addEventListener('keydown', function(e) {
         if (e.key == 'Tab') {
             e.preventDefault();
             var start = this.selectionStart;
@@ -119,6 +120,32 @@
             this.value = this.value.substring(0, start) +
             "\t" + this.value.substring(end);
             this.selectionStart = this.selectionEnd = start + 1;
+            }
+        });
+    </script>
+
+    <!-- +++++ SAVE TEXTAREA INPUT TO .TXT-FILE +++++-->
+    <script>
+        function downloadFile(filename, content) {
+            const element = document.createElement('a');
+            const blob = new Blob([content], { type: 'plain/text' });
+            const fileUrl = URL.createObjectURL(blob);
+            element.setAttribute('href', fileUrl);
+            element.setAttribute('download', filename);
+            element.style.display = 'none';
+            document.body.appendChild(element);
+            element.click();
+            document.body.removeChild(element);
+        };
+
+        document.getElementById('download').addEventListener('click', e => {
+            console.log("downloading");
+            const filename = "minimaschine_code.txt";
+
+            const content = document.getElementById('code').value;
+
+            if(content){
+                downloadFile(filename, content);
             }
         });
     </script>
