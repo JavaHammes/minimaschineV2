@@ -149,10 +149,9 @@ class Ilex:
     # +++++ CONVERT INTEGER TO 16 LONG BIT-NUMBER +++++
     def convert_to_bin16(self, integer):
         if integer >= 0:
-            return "0" * (16-len(bin(integer))+2) + str(bin(integer)[2:])
+            return "0" + "0" * (15-len(bin(integer))+2) + str(bin(integer)[2:])
         else:
-            print("1" + "0" * (16 - len(bin(integer)) +2) + str(bin(integer)[3:]))
-            return "1" + "0" * (16 - len(bin(integer)) +2) + str(bin(integer)[3:])
+            return "1" + "0" * (15 - len(bin(integer)) +2) + str(bin(integer)[3:])
 
     # +++++ CONVERT 16 LONG BIT-NUMBER TO INTEGER +++++
     def convert_bin16_int(self, bin16):
@@ -208,7 +207,6 @@ class Ilex:
 
     # +++++ CHECK IF EVERY INPUT WAS VALID +++++ 
     def check_valid(self):
-        assert len(self.valid_commands) == 44, "Vergessen check_valid zu updaten"
         amount_of_valid_values = 0
         amount_of_valid_commands = 0
 
@@ -220,7 +218,7 @@ class Ilex:
             if command.get_key() in self.valid_commands:
                 amount_of_valid_commands += 1
 
-            if command.get_value().isnumeric():
+            if command.get_value().lstrip("-").isnumeric():
                 amount_of_valid_values += 1
 
         if amount_of_valid_commands < len(self.commands):
@@ -352,6 +350,15 @@ class Ilex:
             self.pf = 1
         else:
             self.pf = 0
+
+        if akku_value > 32767:
+            self.ov = 1
+            self.akkumulator = 32767
+        elif akku_value < -32767:
+            self.ov = 1
+            self.akkumulator = -32767
+        else:
+            self.ov = 0
 
     # +++++ ILEX METHODS +++++
 
