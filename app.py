@@ -33,13 +33,21 @@ def home():
 def submit():
     code_input = os.linesep.join([s for s in request.form['text'].splitlines() if s]).lstrip()
 
+    if not code_input:
+        return render_template(
+            "index.html"
+        )
+    
     commands = ilex.convert_list_to_commands(request.form['text'].split())
     ilex.init_commands(commands)
 
-    try:
-        ilex.run_code()
-    except Exception:
-        ilex.set_every_value(500)
+    if request.form['submit_button'] == "Run Code":
+        try:
+            ilex.run_code()
+        except Exception:
+            ilex.set_every_value(500)
+    elif request.form['submit_button'] == "Einzelschritt":
+        print(code_input)
 
     regs = ilex.get_regs()
 
