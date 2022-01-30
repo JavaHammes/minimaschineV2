@@ -148,11 +148,25 @@ class Ilex:
 
     # +++++ CONVERT INTEGER TO 16 LONG BIT-NUMBER +++++
     def convert_to_bin16(self, integer):
-        return "0" * (16-len(bin(integer))+2) + str(bin(integer)[2:])
+        if integer >= 0:
+            return "0" * (16-len(bin(integer))+2) + str(bin(integer)[2:])
+        else:
+            print("1" + "0" * (16 - len(bin(integer)) +2) + str(bin(integer)[3:]))
+            return "1" + "0" * (16 - len(bin(integer)) +2) + str(bin(integer)[3:])
 
     # +++++ CONVERT 16 LONG BIT-NUMBER TO INTEGER +++++
     def convert_bin16_int(self, bin16):
-        return int(str(bin16)[str(bin16).find("1"):], 2)
+        if str(bin16)[0] == "0":
+            try:
+                return int(str(bin16)[str(bin16).find("1"):], 2)
+            except ValueError:
+                return bin16
+        else:
+            try:
+                bin16_pos = str(bin16)[1:]
+                return -int(bin16_pos[bin16_pos.find("1"):], 2)
+            except Exception:
+                return bin16
 
     # +++++ CONVERT INPUT TO LIST FULL OF COMMANDS [Command, Command, Command...]+++++
     def convert_list_to_commands(self, lst):
@@ -266,6 +280,8 @@ class Ilex:
 
         getattr(Ilex, key)(self, value)
 
+        self.set_flags()
+
     # +++++ METHOD TO SET EVERY VALUE TO ONE SPECIFIC VALUE +++++
     def set_every_value(self, value):
         self.akkumulator = value
@@ -316,6 +332,27 @@ class Ilex:
             0000000000000000,
         ]        
 
+    # +++++ 
+
+    def set_flags(self):
+
+        akku_value = int(self.akkumulator)
+
+        if akku_value < 0:
+            self.sf = 1
+        else:
+            self.sf = 0
+
+        if akku_value == 0:
+            self.zr = 1
+        else:
+            self.zr = 0
+        
+        if akku_value % 2 == 0:
+            self.pf = 1
+        else:
+            self.pf = 0
+
     # +++++ ILEX METHODS +++++
 
     def LOAD(self, reg_num):
@@ -362,7 +399,7 @@ class Ilex:
         self.programmzähler += 1
 
     def SUBI(self, number):
-        self.akkumulator -= int(number)
+        self.akkumulator  = int(self.akkumulator) - int(number)
         self.programmzähler += 1
 
     def MULI(self, number):
