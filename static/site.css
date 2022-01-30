@@ -7,11 +7,6 @@ html, body{
     background-color: #555;
 }
 
-textarea{
-    height: 500px;
-    width: 100%;
-}
-
 p{
     color: blue;
     font-size: x-large;
@@ -165,8 +160,8 @@ p{
 
 .Akkumulator-Wert, .Befehlsregister-Befehl, .Befehlsregister-Wert, .Programmzähler-Zähler{
     border: 1px solid black;
-    margin-top: 30px;
-    width: 75px;
+    margin-top: 10%;
+    width: 50%;
 }
 
 .Befehlsregister-Ausgabe{
@@ -174,7 +169,7 @@ p{
 }
 
 .Befehlsregister-Befehl, .Befehlsregister-Wert{
-    margin-top: 15px;
+    margin-top: 2%;
     flex: 1;
 }
 
