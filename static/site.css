@@ -38,7 +38,7 @@ p{
 }
 
 .submit_buttons {
-    width: 102%;
+    width: 100%;
     height: 100%;
     display: flex;
 }
@@ -48,6 +48,13 @@ p{
     height: 4%;
     flex: 1;
     margin-right: 2%;
+}
+
+.einzelschritt_buttons{
+    margin-top: 1%;
+    width: 50%;
+    height: 100%;
+    display:flex;
 }
 
 .reg_table  {

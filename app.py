@@ -39,15 +39,21 @@ def submit():
         )
     
     commands = ilex.convert_list_to_commands(request.form['text'].split())
-    ilex.init_commands(commands)
 
     if request.form['submit_button'] == "Run Code":
         try:
-            ilex.run_code()
+            ilex.init_commands(commands, False)
+            ilex.run_code(False)
         except Exception:
             ilex.set_every_value(500)
     elif request.form['submit_button'] == "Einzelschritt":
-        print(code_input)
+        try:
+            ilex.init_commands(commands, True)
+            ilex.run_code(True)
+        except Exception:
+            ilex.set_every_value(500)
+    elif request.form['submit_button'] == "Reset":
+            ilex.set_every_value(0)
 
     regs = ilex.get_regs()
 

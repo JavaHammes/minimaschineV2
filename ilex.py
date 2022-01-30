@@ -114,11 +114,16 @@ class Ilex:
         pass
 
     # +++++ INITIAL COMMANDS AND VARIABLES +++++
-    def init_commands(self, commands):
-        self.set_every_value(0)
-        self.commands = commands
-        self.check_valid()
-        self.method_names = self.get_method_names()
+    def init_commands(self, commands, single):
+        if not single:
+            self.set_every_value(0)
+            self.commands = commands
+            self.check_valid()
+            self.method_names = self.get_method_names()
+        else:
+            self.commands = commands
+            self.check_valid()
+            self.method_names = self.get_method_names()
 
     # +++++ RETURN COMMANDS IN A READABLE FORMAT {('KEY', 'VALUE')} +++++
     def return_commands_readable(self, commands):
@@ -215,21 +220,35 @@ class Ilex:
         return True
 
     # +++++ RUN CODE +++++
-    def run_code(self):
+    def run_code(self, single):
         if self.errors:
             self.errors.sort(key=Error.importance)
             self.set_every_value(self.errors[0].error_value)
             return
-
-        while self.commands[self.programmzähler].get_key() != "HOLD":
-            if self.errors:
-                self.errors.sort(key=Error.importance)
-                self.set_every_value(self.errors[0].error_value)
+        if not single:
+            while self.commands[self.programmzähler].get_key() != "HOLD":
+                if self.errors:
+                    self.errors.sort(key=Error.importance)
+                    self.set_every_value(self.errors[0].error_value)
+                    return
+                if self.programmzähler >= len(self.commands) -1:
+                    self.errors.append(Error(400))
+                    self.set_every_value(400)
+                    return 
+                try:
+                    self.execute_command(self.commands[self.programmzähler]);
+                except AttributeError:
+                    print(self.commands[self.programmzähler].get_key() + " method missing")
+                    self.programmzähler += 1
+        else:
+            if self.commands[self.programmzähler].get_key() == "HOLD":
                 return
+
             if self.programmzähler >= len(self.commands) -1:
                 self.errors.append(Error(400))
                 self.set_every_value(400)
                 return 
+
             try:
                 self.execute_command(self.commands[self.programmzähler]);
             except AttributeError:

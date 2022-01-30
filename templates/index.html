@@ -18,7 +18,10 @@
                 <textarea name="text" id="code"> {{ code_input|default("",true) }} </textarea>
                 <div class="submit_buttons">
                     <input type="submit" class="submit_button" value="Run Code" name="submit_button">
-                    <input type="submit" class="submit_button" value="Einzelschritt" name="submit_button">
+                    <div class="einzelschritt_buttons">
+                        <input type="submit" class="submit_button" value="Einzelschritt" name="submit_button">
+                        <input type="submit" class="submit_button" value="Reset" name="submit_button">
+                    </div>
                 </div>
             </form>
         </div>
