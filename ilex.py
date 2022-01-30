@@ -184,7 +184,7 @@ class Ilex:
                 res_lst.append(Command(lst[i], "END"))
                 i += 1
             elif "NOOP" in lst[i]:
-                res_lst.append(Command(lst[i],"NO-OPERATION"))
+                res_lst.append(Command(lst[i],"NOOP"))
                 i += 1
             elif "NOT" in lst[i]:
                 res_lst.append(Command(lst[i],"NOT"))
@@ -278,7 +278,8 @@ class Ilex:
 
         getattr(Ilex, key)(self, value)
 
-        self.set_flags()
+        if key != "CMPI" and key != "CMP":
+            self.set_flags()
 
     # +++++ METHOD TO SET EVERY VALUE TO ONE SPECIFIC VALUE +++++
     def set_every_value(self, value):
@@ -395,7 +396,7 @@ class Ilex:
         self.programmzähler += 1
 
     def CMP(self, reg_num):
-        if self.akkumulator == int(self.convert_bin16_int(self.regs[int(reg_num)-1])):
+        if self.akkumulator == str(self.convert_bin16_int(self.regs[int(reg_num)-1])):
             self.zr = 1
         else:
             self.zr = 0
@@ -422,7 +423,7 @@ class Ilex:
         self.programmzähler += 1
 
     def CMPI(self, number):
-        if self.akkumulator == int(number):
+        if self.akkumulator == number:
             self.zr = 1
         else:
             self.zr = 0
@@ -430,22 +431,18 @@ class Ilex:
 
     def AND(self, reg_num):
         self.akkumulator = self.akkumulator & int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
-        self.ov = 0
         self.programmzähler += 1
 
     def OR(self, reg_num):
         self.akkumulator = self.akkumulator | int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
-        self.ov = 0
         self.programmzähler += 1
 
     def XOR(self, reg_num):
         self.akkumulator = self.akkumulator ^ int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
-        self.ov = 0 
         self.programmzähler += 1   
     
     def NOT(self, NOT):
         self.akkumulator = ~self.akkumulator
-        self.ov = 0
         self.programmzähler += 1
 
     def SHL(self, reg_num):
@@ -458,22 +455,18 @@ class Ilex:
 
     def ANDI(self, number):
         self.akkumulator = self.akkumulator & int(number)
-        self.ov = 0
         self.programmzähler += 1
 
     def ORI(self, number):
         self.akkumulator = self.akkumulator | int(number)
-        self.ov = 0
         self.programmzähler += 1
 
     def XORI(self, number):
         self.akkumulator = self.akkumulator ^ int(number)
-        self.ov = 0  
         self.programmzähler += 1  
     
     def NOTI(self, number):
         self.akkumulator = ~int(number)
-        self.ov = 0
         self.programmzähler += 1
 
     def SHLI(self, number):
@@ -557,7 +550,6 @@ class Ilex:
     def NOOP(self, no_operation):
         time.sleep(0.01)
         self.programmzähler += 1
-        self.reset_flags()
 
     def METHOD(self, value):
         self.programmzähler += 1
