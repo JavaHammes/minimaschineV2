@@ -8,7 +8,7 @@ html, body{
 }
 
 p{
-    color: blue;
+    color: rgb(7, 0, 73);
     font-size: x-large;
 }
 
@@ -43,6 +43,7 @@ p{
     height: 4%;
     flex: 1;
     margin-right: 2%;
+    cursor: pointer;
 }
 
 .einzelschritt_buttons{
@@ -108,6 +109,7 @@ p{
 .buttons{
     width: 95%;
     height: 100%;
+    cursor: pointer;
 }
 
 .CodeMirror {
@@ -159,6 +161,7 @@ p{
 
 
 .Akkumulator-Wert, .Befehlsregister-Befehl, .Befehlsregister-Wert, .Programmzähler-Zähler{
+    padding-left: 5%;
     border: 1px solid black;
     margin-top: 10%;
     width: 50%;
