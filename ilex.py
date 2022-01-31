@@ -403,7 +403,7 @@ class Ilex:
         self.programmzähler += 1
 
     def ADDI(self, number):
-        self.akkumulator += int(number)
+        self.akkumulator = int(self.akkumulator) + int(number)
         self.programmzähler += 1
 
     def SUBI(self, number):
@@ -411,15 +411,15 @@ class Ilex:
         self.programmzähler += 1
 
     def MULI(self, number):
-        self.akkumulator *= int(number)
+        self.akkumulator = int(self.akkumulator) * int(number)
         self.programmzähler += 1
 
     def DIVI(self, number):
-        self.akkumulator = int(self.akkumulator / int(number))
+        self.akkumulator = int(int(self.akkumulator) / int(number))
         self.programmzähler += 1
 
     def MODI(self, number):
-        self.akkumulator = self.akkumulator % int(number)
+        self.akkumulator = int(self.akkumulator) % int(number)
         self.programmzähler += 1
 
     def CMPI(self, number):
@@ -430,39 +430,39 @@ class Ilex:
         self.programmzähler += 1
 
     def AND(self, reg_num):
-        self.akkumulator = self.akkumulator & int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+        self.akkumulator = int(self.akkumulator) & int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
         self.programmzähler += 1
 
     def OR(self, reg_num):
-        self.akkumulator = self.akkumulator | int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+        self.akkumulator = int(self.akkumulator) | int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
         self.programmzähler += 1
 
     def XOR(self, reg_num):
-        self.akkumulator = self.akkumulator ^ int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+        self.akkumulator = int(self.akkumulator) ^ int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
         self.programmzähler += 1   
     
     def NOT(self, NOT):
-        self.akkumulator = ~self.akkumulator
+        self.akkumulator = ~int(self.akkumulator)
         self.programmzähler += 1
 
     def SHL(self, reg_num):
-        self.akkumulator = self.akkumulator << int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+        self.akkumulator = int(self.akkumulator) << int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
         self.programmzähler += 1
 
     def SHR(self, reg_num):
-        self.akkumulator = self.akkumulator >> int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
+        self.akkumulator = int(self.akkumulator) >> int(self.convert_bin16_int(self.regs[int(reg_num)-1]))
         self.programmzähler += 1
 
     def ANDI(self, number):
-        self.akkumulator = self.akkumulator & int(number)
+        self.akkumulator = int(self.akkumulator) & int(number)
         self.programmzähler += 1
 
     def ORI(self, number):
-        self.akkumulator = self.akkumulator | int(number)
+        self.akkumulator = int(self.akkumulator) | int(number)
         self.programmzähler += 1
 
     def XORI(self, number):
-        self.akkumulator = self.akkumulator ^ int(number)
+        self.akkumulator = int(self.akkumulator) ^ int(number)
         self.programmzähler += 1  
     
     def NOTI(self, number):
@@ -470,11 +470,11 @@ class Ilex:
         self.programmzähler += 1
 
     def SHLI(self, number):
-        self.akkumulator = self.akkumulator << int(number)
+        self.akkumulator = int(self.akkumulator) << int(number)
         self.programmzähler += 1
 
     def SHRI(self, number):
-        self.akkumulator = self.akkumulator >> int(number)
+        self.akkumulator = int(self.akkumulator) >> int(number)
         self.programmzähler += 1
 
     def JMPP(self, method):
