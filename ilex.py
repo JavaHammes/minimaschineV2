@@ -109,6 +109,9 @@ class Ilex:
     # +++++ METHODNAMES THE USER DECLARED +++++
     method_names = list()
 
+    # +++++ LIST STORING CALLED METHODS IN PROGRAM TO PREVENT CRASHING +++++
+    methods_called = list()
+
     # +++++ EMPTY CONSTRUCTOR +++++
     def __init__(self):
         pass
@@ -292,6 +295,7 @@ class Ilex:
             self.reset_regs()
             self.reset_flags()
             self.errors = list()
+            self.methods_called = list()
         else:
             self.befehlsregister_key = str(value)
             self.befehlsregister_value = str(value)
@@ -520,8 +524,13 @@ class Ilex:
             self.programmzähler += 1
 
     def JMP(self, method):
+        if len(self.methods_called) > 32767:
+            self.errors.append(Error(405))
+            self.programmzähler += 1
+
         if method in self.method_names:
             self.programmzähler = self.index_of_method(method)+1
+            self.methods_called.append(method)
         else:
             self.errors.append(Error(404))
             self.programmzähler += 1

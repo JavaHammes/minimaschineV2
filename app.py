@@ -48,7 +48,7 @@ def submit():
         
         commands = ilex.convert_list_to_commands(request.form['text'].split())
 
-        if request.form['submit_button'] == "Run Code":
+        if request.form['submit_button'] == "Ausführen":
             try:
                 ilex.init_commands(commands, False)
                 ilex.run_code(False)

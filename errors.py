@@ -2,6 +2,7 @@ class Error():
 
     error_value = 0
     possible_values = [
+        405, # Too many methods called
         404, # Method name not existing
         403, # Too less elements
         402, # Wrong input (command)
