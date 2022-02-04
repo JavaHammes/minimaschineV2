@@ -7,6 +7,9 @@ import time
 
 class Ilex:
 
+    # +++++ PROGRAMM FINISHED +++++
+    finished = False
+
     # +++++ THE LIST OF COMMANDS THE USER ENTERED +++++
     commands = list()
 
@@ -121,6 +124,8 @@ class Ilex:
         if not single:
             self.set_every_value(0)
             self.commands = commands
+            if len(self.commands) < 3:
+                self.errors.append(Error("403"))
             self.check_valid()
             self.method_names = self.get_method_names()
         else:
@@ -174,7 +179,7 @@ class Ilex:
     def convert_list_to_commands(self, lst):
         res_lst = list()
         
-        if len(lst) < 4:
+        if len(lst) < 3:
             self.errors.append(Error(403))
             return res_lst
 
@@ -236,39 +241,37 @@ class Ilex:
 
     # +++++ RUN CODE +++++
     def run_code(self, single):
-        if self.errors:
-            self.errors.sort(key=Error.importance)
-            self.set_every_value(self.errors[0].error_value)
-            return
-        if not single:
-            while self.commands[self.programmzähler].get_key() != "HOLD":
-                if self.errors:
-                    self.errors.sort(key=Error.importance)
-                    self.set_every_value(self.errors[0].error_value)
+        if not self.check_for_errors() and not self.finished:
+            if not single:
+                while self.commands[self.programmzähler].get_key() != "HOLD":
+                    self.check_for_errors()
+                    if self.programmzähler > len(self.commands) -1:
+                        self.errors.append(Error(400))
+                        self.set_every_value(400)
+                        return 
+                    try:
+                        self.execute_command(self.commands[self.programmzähler])
+                    except AttributeError:
+                        print(self.commands[self.programmzähler].get_key() + " method missing")
+                        self.programmzähler += 1
+                
+                self.set_hold()
+                return
+            else:
+                if self.commands[self.programmzähler].get_key() == "HOLD":
+                    self.set_hold()
                     return
-                if self.programmzähler >= len(self.commands) -1:
+
+                if self.programmzähler > len(self.commands) -1:
                     self.errors.append(Error(400))
                     self.set_every_value(400)
                     return 
+
                 try:
-                    self.execute_command(self.commands[self.programmzähler]);
+                    self.execute_command(self.commands[self.programmzähler])
                 except AttributeError:
                     print(self.commands[self.programmzähler].get_key() + " method missing")
                     self.programmzähler += 1
-        else:
-            if self.commands[self.programmzähler].get_key() == "HOLD":
-                return
-
-            if self.programmzähler >= len(self.commands) -1:
-                self.errors.append(Error(400))
-                self.set_every_value(400)
-                return 
-
-            try:
-                self.execute_command(self.commands[self.programmzähler]);
-            except AttributeError:
-                print(self.commands[self.programmzähler].get_key() + " method missing")
-                self.programmzähler += 1
 
     # +++++ EXECUTE ONE SPECIFIC COMMAND +++++
     def execute_command(self, command):
@@ -284,6 +287,22 @@ class Ilex:
         if key != "CMPI" and key != "CMP":
             self.set_flags()
 
+    # +++++ CHECKS FOR ERRORS AT RUNTIME +++++
+    def check_for_errors(self):
+        if self.errors:
+            self.errors.sort(key=Error.importance)
+            self.set_every_value(self.errors[0].error_value)
+            return True
+        else:
+            return False
+
+    # +++++ SETS BEFEHLSREGISTER ACCORDING TO HOLD +++++
+    def set_hold(self):
+        self.befehlsregister_key = "HOLD"
+        self.befehlsregister_value = "END"
+        self.programmzähler += 1
+        self.finished = True
+        
     # +++++ METHOD TO SET EVERY VALUE TO ONE SPECIFIC VALUE +++++
     def set_every_value(self, value):
         self.akkumulator = value
@@ -296,6 +315,7 @@ class Ilex:
             self.reset_flags()
             self.errors = list()
             self.methods_called = list()
+            self.finished = False
         else:
             self.befehlsregister_key = str(value)
             self.befehlsregister_value = str(value)
