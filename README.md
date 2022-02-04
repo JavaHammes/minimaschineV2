@@ -31,7 +31,7 @@ Programmierung: Alexander Berlin
 Mit Ratschlägen beiseite gestanden: Ilyas Erriahi
 
 
-Ein besonderes Dankeschön geht an den besten Informatik Lehrer Std. Herr Kessler
+Ein besonderes Dankeschön geht an den besten Informatik Lehrer Herr Keßler
 ohne dem dieses Projekt niemals zustande gekommen wäre.
 
 --------
